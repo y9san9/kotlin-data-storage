@@ -3,7 +3,7 @@ Kotlin Data Storage (KDS) - class that generates json file and stores data there
 Create property you can by `property<VariableType>(defaultValue)` delegate
 
 KDS generates map `property name to property value` and then via gson and delegates store them to file
-# Examples
+# Example
 ```kotlin
 // Defining KDS model 
 object AppData : KDataStorage() {
@@ -19,6 +19,7 @@ fun main() {
     println("Total launches ${AppData.launches}")
 }
 ```
+Also check [it](https://github.com/y9san9/kotlin-data-storage/blob/master/src/test/kotlin/com/y9san9/kds/Main.kt)
 # Quick start [![](https://jitpack.io/v/y9san9/kotlin-data-storage.svg)](https://jitpack.io/#y9san9/kotlin-data-storage)
 Import library with jitpack
 ## Gradle
