@@ -1,4 +1,7 @@
 # About
+Kotlin Data Storage (KDS) - class that generates json file and stores data there. You can use it as android SharedPreferences
+Create property you can by `property<VariableType>(defaultValue)` delegate
+
 KDS generates map `property name to property value` and then via gson and delegates store them to file
 # Examples
 ```kotlin
