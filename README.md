@@ -12,7 +12,7 @@ fun main() {
     AppData.commit {
         launches++
     }
-    // Get data you can anywhere
+    // You can get data anywhere
     println("Total launches ${AppData.launches}")
 }
 ```
