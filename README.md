@@ -1,5 +1,5 @@
 # About
-We are generating map `property name to property value` and then via gson and delegates, set values and store them to file
+KDS generates map `property name to property value` and then via gson and delegates store them to file
 # Examples
 ```kotlin
 // Defining KDS model 
