@@ -29,7 +29,7 @@ open class KDataStorage(source: File? = null) {
         transaction = false
     }
     private fun commit() = source.writeText(variableValuesMap.toJson())
-    private fun load() = source.readText().fromJson<MutableMap<String, String>>()
+    private fun load() = source.readText().fromJson<MutableMap<String, Any?>>()
 
     protected inline fun <reified T> property(default: T = null as T) = object : Delegate<T> {
         /**
@@ -41,13 +41,15 @@ open class KDataStorage(source: File? = null) {
          */
         override operator fun setValue(thisRef: Any, property: KProperty<*>, value: T) {
             if(transaction) {
-                variableValuesMap[property.name] = value.toJson()
+                variableValuesMap[property.name] = value
             } else {
                 throw TransactionError
             }
         }
         override operator fun getValue(thisRef: Any, property: KProperty<*>) =
-            variableValuesMap[property.name]?.fromJson() ?: default
+            variableValuesMap[property.name] as? T ?: default.also {
+                variableValuesMap[property.name] = it
+            }
     }
 }
 
