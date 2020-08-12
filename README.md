@@ -8,7 +8,7 @@ object AppData : KDataStorage() {
 }
 
 fun main() {
-    // To edit data use commit method (else if you will try to edit data, TransactionError throwable will be thrown)
+    // To edit data use commit method (else if you will try to edit data, TransactionError will be thrown)
     AppData.commit {
         launches++
     }
