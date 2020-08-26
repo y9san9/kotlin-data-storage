@@ -1,7 +1,7 @@
 package com.y9san9.kds
 
 
-data class MyDataClass (
+data class MyDataClass(
     val testString: String,
     val testBoolean: Boolean
 )
@@ -13,9 +13,8 @@ object Test : KDataStorage() {
     var list by property(mutableListOf<Any>())
 }
 
-fun main() = Test.commit {
-    name = "test"
-    id = 120
-    data = MyDataClass("text", false)
-    list.add("Element ${list.size}")
+fun main() {
+    Test.commit { id = 123 }
+    Test.clear()
+    println(Test.id)
 }
