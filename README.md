@@ -1,3 +1,5 @@
+<a href="https://codebeat.co/projects/github-com-y9san9-kotlin-data-storage-master"><img alt="codebeat badge" src="https://codebeat.co/badges/eed41e0b-609b-4f23-b952-baef28513114" /></a>
+
 # About
 Kotlin Data Storage (KDS) - class that generates json file and stores data there. You can use it as android SharedPreferences
 
