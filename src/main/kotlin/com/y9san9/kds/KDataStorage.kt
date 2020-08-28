@@ -15,6 +15,8 @@ fun <T : KDataStorage> T.commit(transaction: T.() -> Unit) {
 }
 
 open class KDataStorage(source: File? = null) {
+    constructor(name: String, dir: File = File(System.getProperty("user.dir"))) : this(File(dir, name))
+
     private val source = (source ?: File(dataDir, "${this::class.simpleName?.toLowerCase()}.json"))
         .apply { refresh(defaultFileText = "{}") }
 
