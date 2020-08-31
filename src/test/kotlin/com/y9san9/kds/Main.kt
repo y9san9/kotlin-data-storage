@@ -14,7 +14,11 @@ object Test : KDataStorage() {
 }
 
 fun main() {
-    Test.commit { id = 123 }
+    Test.commit {
+        data = MyDataClass("", true)
+        id = 123
+    }
+    println(Test.data)
     Test.clear()
     println(Test.id)
 }

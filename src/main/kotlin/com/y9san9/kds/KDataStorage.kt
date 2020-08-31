@@ -4,9 +4,7 @@ import com.y9san9.kds.utils.fromJson
 import com.y9san9.kds.utils.refresh
 import com.y9san9.kds.utils.toJson
 import java.io.File
-import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
-import kotlin.reflect.cast
 
 private val dataDir = File(System.getProperty("user.dir"), "data")
 
@@ -37,15 +35,17 @@ open class KDataStorage(source: File? = null) {
     }
 
     private fun commit() = source.writeText(variableValuesMap.toJson())
-    private fun load() = source.readText().fromJson<MutableMap<String, Any?>>()
+    private fun load() = source.readText().fromJson<MutableMap<String, String>>()
     fun clear() {
         source.delete()
         variableValuesMap.clear()
     }
 
 
-    @Suppress("UNCHECKED_CAST")
-    fun <T> property(default: T = null as T) = object : Delegate<T> {
+    @Suppress("DEPRECATION")
+    inline fun <reified T> property(default: T = null as T) = property(default) { it.fromJson() }
+    @Deprecated("That is an internal call, do not use it", ReplaceWith("property(default)"))
+    fun <T> property(default: T, jsonConverter: (String) -> T) = object : Delegate<T> {
         /**
          * @throws TransactionError if there is no transaction in context
          * Usage:
@@ -55,16 +55,15 @@ open class KDataStorage(source: File? = null) {
          */
         override operator fun setValue(thisRef: KDataStorage, property: KProperty<*>, value: T) {
             if (transaction) {
-                variableValuesMap[property.name] = value
+                variableValuesMap[property.name] = value.toJson()
             } else {
                 throw TransactionError
             }
         }
 
-        override operator fun getValue(thisRef: KDataStorage, property: KProperty<*>) =
-                variableValuesMap[property.name] as T ?: default.also {
-                    variableValuesMap[property.name] = it
-                }
+        override operator fun getValue(thisRef: KDataStorage, property: KProperty<*>): T {
+            return jsonConverter(variableValuesMap[property.name] ?: return default)
+        }
     }
 }
 
