@@ -9,4 +9,4 @@ val gson = GsonBuilder()
     .create()!!
 
 fun Any?.toJson() = gson.toJson(this)!!
-inline fun <reified T> String.fromJson() = gson.fromJson<T>(this, object : TypeToken<T>() {}.type)!!
+inline fun <reified T> String.fromJson(): T = gson.fromJson<T>(this, object : TypeToken<T>() {}.type)

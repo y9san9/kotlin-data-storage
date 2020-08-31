@@ -15,7 +15,7 @@ object Test : KDataStorage() {
 
 fun main() {
     Test.commit {
-        data = MyDataClass("", true)
+        data = null
         id = 123
     }
     println(Test.data)
