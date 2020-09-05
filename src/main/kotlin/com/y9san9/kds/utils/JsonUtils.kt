@@ -5,7 +5,6 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 
 val gson = GsonBuilder()
-    .setPrettyPrinting()
     .create()!!
 
 fun Any?.toJson() = gson.toJson(this)!!
