@@ -36,14 +36,25 @@ open class KDataStorage(source: File? = null) {
 
     private fun commit() = source.writeText(variableValuesMap.toJson())
     private fun load() = source.readText().fromJson<MutableMap<String, String>>()
+
     fun clear() {
         source.delete()
         variableValuesMap.clear()
     }
 
+    fun clearProperty(property: String) = clearProperties(property)
+
+    fun clearProperties(vararg propertiesToClear: String) = commit {
+        propertiesToClear.forEach {
+            if (it in variableValuesMap.keys)
+                variableValuesMap.remove(it)
+            else throw ClearingError(it)
+        }
+    }
 
     @Suppress("DEPRECATION")
     inline fun <reified T> property(default: T = null as T) = property(default) { it.fromJson() }
+
     @Deprecated("That is an internal call, do not use it", ReplaceWith("property(default)"))
     fun <T> property(default: T, jsonConverter: (String) -> T) = object : Delegate<T> {
         /**
@@ -53,13 +64,10 @@ open class KDataStorage(source: File? = null) {
          *     variable = ...
          * }
          */
-        override operator fun setValue(thisRef: KDataStorage, property: KProperty<*>, value: T) {
-            if (transaction) {
+        override operator fun setValue(thisRef: KDataStorage, property: KProperty<*>, value: T) =
+            if (transaction)
                 variableValuesMap[property.name] = value.toJson()
-            } else {
-                throw TransactionError
-            }
-        }
+            else throw TransactionError
 
         override operator fun getValue(thisRef: KDataStorage, property: KProperty<*>): T {
             return jsonConverter(variableValuesMap[property.name] ?: return default)
@@ -72,4 +80,5 @@ interface Delegate<T> {
     operator fun getValue(thisRef: KDataStorage, property: KProperty<*>): T
 }
 
-object TransactionError : Throwable("No transaction in context")
+object TransactionError : Throwable("No transaction in the context")
+class ClearingError(property: String) : Throwable("No such property in the storage: $property")
