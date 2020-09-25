@@ -52,6 +52,8 @@ open class KDataStorage(source: File? = null) {
         }
     }
 
+    override fun toString() = variableValuesMap.toString()
+
     @Suppress("DEPRECATION")
     inline fun <reified T> property(default: T = null as T) = property(default) { it.fromJson() }
 

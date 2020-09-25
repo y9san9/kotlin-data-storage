@@ -19,6 +19,7 @@ fun main() {
         name = "asdasd"
     }
     Test.clearProperties("data", "id")
+    println(Test.toString())
     println(Test.data)
     println(Test.id)
 }
