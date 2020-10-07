@@ -8,9 +8,9 @@ You can create a property by `property<VariableType>(defaultValue)` delegate.
 KDS generates map `property name to property value` and then stores it into the file via Gson.
 # Example
 ```kotlin
-// Defining the KDS model 
 class SomeClass(val someValue: String)
 
+// Defining the KDS model
 object AppData : KDataStorage() {
     val launches by property(0)
     val count by property(100)
@@ -23,14 +23,19 @@ fun main() {
     AppData.commit {
         launches++
     }
+
     // To clear all data, use the clear method
     AppData.clear()
+
     // To clear a single property use the clearProperty method and pass name of the property that you want to delete (if you try to delete a non-existent property, ClearingError will be thrown)
     AppData.clearProperty("count")
+
     // To clear several properties, use the clearProperties method and pass their names (if you try to delete a non-existent properties, ClearingError will be thrown)
     AppData.clearProperties("someClass", "available")
+
     // You can use toString method to convert the Storage to String
     println(AppData.toString())
+
     // You can get the data from anywhere
     println("Total launches ${AppData.launches}")
 }
@@ -43,6 +48,7 @@ Import the library with jitpack:
 repositories {
     maven { url "https://jitpack.io" }  // Connecting jitpack to import github repos
 }
+
 dependencies {
     implementation 'com.github.y9san9:kotlin-data-storage:-SNAPSHOT'
 }
@@ -59,6 +65,7 @@ fun DependencyHandlerScope.github(repo: String, tag: String = "-SNAPSHOT") = imp
             "com.github.${username}:${repo}:${tag}"
         }
 )
+
 /**
  * Jitpack maven
  */
@@ -69,6 +76,7 @@ Then, use pretty easy implementation code:
 repositories {
     jitpack()
 }
+
 dependencies {
     github("y9san9/kotlin-data-storage")
 }
